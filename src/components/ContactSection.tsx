@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ArabesqueCorner from "./ArabesqueCorner";
+import emailjs from "@emailjs/browser";
 
 const ContactSection = () => {
   const ref = useRef(null);
@@ -28,14 +29,44 @@ const ContactSection = () => {
       return;
     }
 
-    setSending(true);
-    const subject = encodeURIComponent(`Event Inquiry from ${name} — ${eventType || "General"}`);
-    const body = encodeURIComponent(`Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nEvent Type: ${eventType}\nEvent Date: ${eventDate}\nVenue: ${venue}\nBudget: ${budget}\n\nMessage:\n${message}`);
-    window.location.href = `mailto:hello@sankalpaevents.com?subject=${subject}&body=${body}`;
-    setSending(false);
-    toast({ title: "Your email client has been opened!", description: "Please send the pre-filled message." });
-    form.reset();
-  };
+   setSending(true);
+
+const templateParams = {
+  name,
+  email,
+  phone,
+  eventType,
+  eventDate,
+  venue,
+  budget,
+  message,
+};
+
+try {
+  await emailjs.send(
+  "service_vohqje2",
+  "template_eo0ziag",
+  templateParams,
+  "d-okM8LpO85d2U79B"
+);
+
+  toast({
+    title: "Message sent successfully!",
+    description: "We will get back to you soon.",
+  });
+
+  form.reset();
+} catch (error) {
+  console.error(error);
+  toast({
+    title: "Failed to send message",
+    description: "Please try again later.",
+    variant: "destructive",
+  });
+} finally {
+  setSending(false);
+}
+};
 
   const inputClass = "w-full bg-transparent border-b border-border pb-3 font-body font-normal text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-secondary transition-colors duration-300";
   const labelClass = "text-xs tracking-[0.2em] uppercase text-muted-foreground font-body font-bold block mb-3";
