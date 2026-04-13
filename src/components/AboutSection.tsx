@@ -34,7 +34,7 @@ const AboutSection = () => {
           </h2>
           <div className="w-12 h-px bg-secondary mb-8" />
           <p className="text-muted-foreground font-body font-normal leading-relaxed mb-6">
-            At Sankalpa Events, we believe every celebration begins with a promise — a sankalpa. A promise to create moments that are meaningful, beautiful, and unforgettable.
+            At Sankalpa Events, we believe every celebration begins with a promise a sankalpa. A promise to create moments that are meaningful, beautiful, and unforgettable.
           </p>
           <p className="text-muted-foreground font-body font-normal leading-relaxed mb-6">
             Rooted in tradition and elevated by elegance, we specialize in curating events that reflect your dreams, values, and emotions. From intimate family functions to grand weddings, corporate events, concerts, housewarming ceremonies, exquisite flower décor, premium catering, workshops, and cultural gatherings, our team brings every detail together with creativity and flawless execution.

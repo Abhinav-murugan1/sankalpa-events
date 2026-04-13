@@ -27,14 +27,14 @@ const StorySection = () => {
               The word <span className="text-foreground font-bold">"Sankalpa"</span> means a sacred intention, a heartfelt commitment, and a vision brought to life.
             </p>
             <p className="text-muted-foreground font-body font-normal leading-relaxed">
-              At Sankalpa Events, that is exactly what we stand for — turning your cherished moments into beautifully planned celebrations filled with joy, grace, and unforgettable memories.
+              At Sankalpa Events, that is exactly what we stand for turning your cherished moments into beautifully planned celebrations filled with joy, grace, and unforgettable memories.
             </p>
             <div className="pt-4 border-t border-border">
               <p className="font-heading text-xl text-foreground font-bold">
                 "Crafting Events with Heart, Heritage & Harmony"
               </p>
               <p className="text-muted-foreground font-body text-sm font-normal mt-3 leading-relaxed">
-                Every celebration is more than an occasion — it is an emotion, a memory, and a meaningful milestone. We bring together creativity, culture, and flawless coordination to make every event truly extraordinary.
+                Every celebration is more than an occasion it is an emotion, a memory, and a meaningful milestone. We bring together creativity, culture, and flawless coordination to make every event truly extraordinary.
               </p>
             </div>
           </motion.div>

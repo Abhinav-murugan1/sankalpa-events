@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import logo from "@/assets/logo.png";
+import logo2 from "@/assets/logo2.png";
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -52,15 +53,15 @@ const Navbar = () => {
           <img
             src={logo}
             alt="Sankalpa Events"
-            className={`h-12 w-auto transition-all duration-500 ${scrolled ? "brightness-0 sepia saturate-[5] hue-rotate-[120deg]" : ""}`}
+            className={`h-10 w-auto transition-all duration-500 ${scrolled ? "brightness-0 sepia saturate-[5] hue-rotate-[120deg]" : ""}`}
           />
-          <span
-            className={`font-heading text-xl font-semibold tracking-wide transition-colors duration-500 ${
-              scrolled ? "text-teal-deepest" : "text-white"
+          <img
+            src={logo2}
+            alt="Sankalpa Events"
+            className={`h-10 w-auto translate-y-[4px] ml-3 transition-all duration-500 ${
+            scrolled ? "brightness-0 sepia saturate-[5] hue-rotate-[120deg]" : ""
             }`}
-          >
-            Sankalpa Events
-          </span>
+          />
         </a>
 
         {/* Nav links on the right */}

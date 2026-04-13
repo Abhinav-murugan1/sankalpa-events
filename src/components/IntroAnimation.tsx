@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
+import logo2 from "@/assets/logo2.png";
 
 interface IntroAnimationProps {
   show: boolean;
@@ -29,19 +30,19 @@ const IntroAnimation = ({ show, onComplete }: IntroAnimationProps) => {
             <motion.img
               src={logo}
               alt="Sankalpa Events"
-              className="w-28 h-28 md:w-36 md:h-36"
+              className="w-14 h-auto md:w-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             />
-            <motion.p
+            <motion.img
+              src={logo2}
+              alt="Sankalpa Events"
+              className="w-32 md:w-48 h-auto"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="font-heading text-2xl md:text-3xl text-white tracking-wide"
-            >
-              Sankalpa Events
-            </motion.p>
+/>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

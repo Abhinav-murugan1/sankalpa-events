@@ -49,7 +49,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="font-heading text-5xl md:text-7xl lg:text-8xl font-normal text-white leading-tight tracking-tight"
+          className="font-heading text-5xl md:text-7xl lg:text-8xl font-semibold text-white leading-tight tracking-tight"
         >
           Where Traditions Blossom
           <br />
