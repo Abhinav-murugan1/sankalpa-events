@@ -1,10 +1,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import heroWedding from "@/assets/hero-wedding.jpg";
-import heroReception from "@/assets/hero-reception.jpg";
-import heroCelebration from "@/assets/hero-celebration.jpg";
+import heroWedding from "@/assets/service-concert.png";
+import heroReception from "@/assets/service-engagement.jpeg";
+import heroCelebration from "@/assets/service-housewarming-new.jpg";
+import hero4 from "@/assets/service-cultural.jpg";
+import hero5 from "@/assets/service-floral.jpg";
+import hero6 from "@/assets/service-corporate.jpg";
+import hero7 from "@/assets/service-workshop.jpg";
+import hero8 from "@/assets/service-conference.jpg";
 
-const bgImages = [heroWedding, heroReception, heroCelebration];
+const bgImages = [heroWedding, heroReception, heroCelebration, hero4, hero5, hero6, hero7, hero8];
 
 const HeroSection = () => {
   const [currentBg, setCurrentBg] = useState(0);

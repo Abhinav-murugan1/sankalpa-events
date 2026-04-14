@@ -173,7 +173,7 @@ const DesktopImageGallery = ({ service, onClose }: { service: (typeof services)[
       </div>
       <div className="flex-1 p-8 md:p-10 flex flex-col justify-between">
         <div>
-          <motion.h3 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.4 }} className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-3">{service.title}</motion.h3>
+          <motion.h3 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.4 }} className="font-heading text-xl md:text-2xl font-medium text-foreground mb-3">{service.title}</motion.h3>
           <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, duration: 0.4 }} className="text-muted-foreground font-body font-normal text-sm md:text-base leading-relaxed mb-5">{service.desc}</motion.p>
         </div>
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.4 }}>
