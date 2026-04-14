@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import aboutImg from "@/assets/about-team.jpg";
+import aboutImg from "@/assets/about-team.jpeg";
 import OrnamentalFlourish from "./OrnamentalFlourish";
 import ArabesqueCorner from "./ArabesqueCorner";
 
