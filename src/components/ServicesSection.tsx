@@ -5,9 +5,9 @@ import OrnamentalFlourish from "./OrnamentalFlourish";
 import ArabesqueCorner from "./ArabesqueCorner";
 
 import serviceWedding from "@/assets/service-wedding.jpg";
-import serviceEngagement from "@/assets/service-engagement.jpg";
+import serviceEngagement from "@/assets/service-engagement.jpeg";
 import serviceCorporate from "@/assets/service-corporate.jpg";
-import serviceConcert from "@/assets/service-concert.jpg";
+import serviceConcert from "@/assets/service-concert.png";
 import serviceWorkshop from "@/assets/service-workshop.jpg";
 import serviceConference from "@/assets/service-conference.jpg";
 import servicePrivate from "@/assets/service-private.jpg";
@@ -157,7 +157,7 @@ const DesktopImageGallery = ({ service, onClose }: { service: (typeof services)[
         <AnimatePresence mode="wait">
           <motion.img key={currentImageIndex} initial={{ opacity: 0, scale: 1.03 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease: "easeOut" }} src={service.images[currentImageIndex]} alt={service.title} className="w-full h-full object-cover" loading="lazy" />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <button onClick={onClose} className="absolute top-5 right-5 text-white/70 hover:text-white transition-colors duration-200"><X size={18} strokeWidth={1.5} /></button>
         {service.images.length > 1 && (
           <>
