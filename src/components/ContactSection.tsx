@@ -18,7 +18,7 @@ const ContactSection = () => {
     const name = data.get("name") as string;
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
-    const eventType = data.get("eventType") as string;
+    const eventType = data.get("eventType") as string;  
     const eventDate = data.get("eventDate") as string;
     const venue = data.get("venue") as string;
     const budget = data.get("budget") as string;

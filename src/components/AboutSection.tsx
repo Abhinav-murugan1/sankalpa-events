@@ -18,7 +18,7 @@ const AboutSection = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="overflow-hidden"
         >
-          <img src={aboutImg} alt="Sankalpa Events team at work" className="w-full h-[500px] object-cover" loading="lazy" />
+          <img src={aboutImg} alt="Sankalpa Events team at work" className="w-full h-[300px] md:h-[500px] object-cover" loading="lazy" />
         </motion.div>
 
         <motion.div
