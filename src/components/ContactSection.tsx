@@ -86,7 +86,7 @@ try {
         <div className="grid lg:grid-cols-3 gap-16">
           <motion.div initial={{ opacity: 0, x: -30 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.8, delay: 0.2 }} className="space-y-8">
             {[
-              { icon: Phone, label: "Phone", value: "+91 XXXXX XXXXX" },
+              { icon: Phone, label: "Phone", value: "+91 9900073564" },
               { icon: Mail, label: "Email", value: "hello@sankalpaevents.com" },
               { icon: MapPin, label: "Location", value: "Karnataka, India" },
               { icon: Clock, label: "Working Hours", value: "Mon – Sat | 9:00 AM – 7:00 PM" },

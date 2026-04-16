@@ -15,7 +15,7 @@ const serviceLinks = [
 ];
 
 const socials = [
-  { icon: Instagram, href: "#", label: "Instagram" },
+  { icon: Instagram, href: "https://www.instagram.com/sankalpaevents22?igsh=MWFwN2NhbWhwYjRrcQ%3D%3D&utm_source=qr", label: "Instagram" },
   { icon: Facebook, href: "#", label: "Facebook" },
   { icon: Youtube, href: "#", label: "YouTube" },
   { icon: Linkedin, href: "#", label: "LinkedIn" },
