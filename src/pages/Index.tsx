@@ -10,6 +10,7 @@ import ProcessSection from "@/components/ProcessSection";
 import GallerySection from "@/components/GallerySection";
 import CTASection from "@/components/CTASection";
 import ContactSection from "@/components/ContactSection";
+import ConsultationPopup from "@/components/ConsultationPopup";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -28,6 +29,7 @@ const Index = () => {
       <GallerySection />
       <CTASection />
       <ContactSection />
+      <ConsultationPopup show={!showIntro} />
       <Footer />
     </div>
   );
