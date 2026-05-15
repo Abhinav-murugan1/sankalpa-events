@@ -61,10 +61,10 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
 
   try {
     await emailjs.send(
-      "service_vohqje2",
-      "template_eo0ziag",
+      "service_zebe7mk",
+      "template_uiyecpu",
       templateParams,
-      "d-okM8LpO85d2U79B"
+      "Kdmq11Z41cz4KD-xp"
     );
 
     toast({
@@ -125,7 +125,7 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
               </p>
 
               <h2 className="font-heading text-3xl md:text-4xl font-light text-foreground">
-                Free <span className="italic">Consultation</span>
+                Free <span> Consultation</span>
               </h2>
 
               <p className="mt-4 text-sm text-muted-foreground font-body">
