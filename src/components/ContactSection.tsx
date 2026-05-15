@@ -44,10 +44,10 @@ const templateParams = {
 
 try {
   await emailjs.send(
-  "service_vohqje2",
-  "template_eo0ziag",
+  "service_zebe7mk",
+  "template_s19kzbr",
   templateParams,
-  "d-okM8LpO85d2U79B"
+  "Kdmq11Z41cz4KD-xp"
 );
 
   toast({
