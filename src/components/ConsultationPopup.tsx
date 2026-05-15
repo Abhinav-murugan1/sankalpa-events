@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { X, MessageCircle, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
+import emailjs from "@emailjs/browser";
 interface ConsultationPopupProps {
   show: boolean;
 }
@@ -11,59 +11,82 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
   const { toast } = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [hasClosed, setHasClosed] = useState(false);
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    if (show) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 3000);
+  if (show && !hasClosed) {
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [show]);
+    return () => clearTimeout(timer);
+  }
+}, [show, hasClosed]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (
+  e: React.FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
 
-    const form = e.currentTarget;
-    const data = new FormData(form);
+  const form = e.currentTarget;
 
-    const name = data.get("name") as string;
-    const phone = data.get("phone") as string;
-    const email = data.get("email") as string;
+  const data = new FormData(form);
 
-    if (!name.trim() || !phone.trim() || !email.trim()) {
-      toast({
-        title: "Please fill in all required fields.",
-        variant: "destructive",
-      });
+  const name = data.get("name") as string;
+  const phone = data.get("phone") as string;
+  const email = data.get("email") as string;
 
-      return;
-    }
+  if (!name.trim() || !phone.trim() || !email.trim()) {
+    toast({
+      title: "Please fill in all required fields.",
+      variant: "destructive",
+    });
 
-    setSending(true);
+    return;
+  }
 
-    const subject = encodeURIComponent(
-      `Free Consultation Request from ${name}`
+  setSending(true);
+
+  const templateParams = {
+    name,
+    email,
+    phone,
+    eventType: "Free Consultation",
+    eventDate: "Not Provided",
+    venue: "Not Provided",
+    budget: "Not Provided",
+    message: "User requested a free consultation.",
+  };
+
+  try {
+    await emailjs.send(
+      "service_vohqje2",
+      "template_eo0ziag",
+      templateParams,
+      "d-okM8LpO85d2U79B"
     );
-
-    const body = encodeURIComponent(
-      `Name: ${name}\nPhone: ${phone}\nEmail: ${email}`
-    );
-
-    window.location.href = `mailto:hello@sankalpaevents.com?subject=${subject}&body=${body}`;
-
-    setSending(false);
 
     toast({
-      title: "Your email client has been opened!",
-      description: "Please send the pre-filled message.",
+      title: "Consultation Request Sent!",
+      description: "We will get back to you soon.",
     });
 
     form.reset();
     setIsOpen(false);
-  };
+    setHasClosed(true);
+  } catch (error) {
+    console.error(error);
+
+    toast({
+      title: "Failed to send request",
+      description: "Please try again later.",
+      variant: "destructive",
+    });
+  } finally {
+    setSending(false);
+  }
+};
 
   return (
     <>
@@ -86,7 +109,10 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
           >
             {/* Close */}
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                setHasClosed(true);
+            }}
               className="absolute right-6 top-6 text-black/40 hover:text-black transition-colors duration-200"
             >
               <X size={18} strokeWidth={1.5} />
@@ -175,7 +201,7 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
           transition={{
             duration: 0.45,
             ease: "easeOut",
-          }}
+        }}
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 z-[9997] flex items-center gap-2 bg-green-600 px-5 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-green-700"
         >
