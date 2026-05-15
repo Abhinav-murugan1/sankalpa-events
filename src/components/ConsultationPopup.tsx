@@ -1,15 +1,21 @@
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
+
 import {
   useEffect,
   useState,
   useCallback,
   memo,
 } from "react";
+
 import {
   X,
   MessageCircle,
   Send,
 } from "lucide-react";
+
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 
@@ -30,7 +36,7 @@ const ConsultationPopup = memo(
     const [sending, setSending] =
       useState(false);
 
-    // Auto open after 3 sec
+    // Auto open
     useEffect(() => {
       if (!show || hasClosed) return;
 
@@ -104,8 +110,8 @@ const ConsultationPopup = memo(
           "template_uiyecpu",
           {
             name,
-            phone,
             email,
+            phone,
             eventType:
               "Free Consultation",
             eventDate:
@@ -144,11 +150,10 @@ const ConsultationPopup = memo(
 
     return (
       <>
-        {/* Popup */}
+        {/* Overlay */}
         <AnimatePresence>
           {isOpen && (
             <>
-              {/* Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -156,102 +161,136 @@ const ConsultationPopup = memo(
                 transition={{
                   duration: 0.2,
                 }}
-                className="fixed inset-0 z-[9998] bg-black/40"
+                className="fixed inset-0 z-[9998] bg-black/30"
                 onClick={handleClose}
               />
 
-              {/* Modal */}
-              <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+              {/* Popup */}
+              <div className="fixed inset-0 z-[9999] flex items-center justify-center px-6">
                 <motion.div
                   initial={{
                     opacity: 0,
-                    scale: 0.96,
-                    y: 10,
+                    y: 18,
                   }}
                   animate={{
                     opacity: 1,
-                    scale: 1,
                     y: 0,
                   }}
                   exit={{
                     opacity: 0,
-                    scale: 0.96,
-                    y: 10,
+                    y: 18,
                   }}
                   transition={{
-                    duration: 0.22,
-                    ease: "easeOut",
+                    duration: 0.35,
+                    ease: [
+                      0.22,
+                      1,
+                      0.36,
+                      1,
+                    ],
                   }}
-                  className="relative w-full max-w-lg bg-white p-8 shadow-2xl will-change-transform"
+                  className="relative w-full max-w-xl bg-white px-8 py-10 shadow-2xl will-change-transform md:px-12 md:py-12"
                 >
                   {/* Close */}
                   <button
-                    onClick={handleClose}
-                    className="absolute right-5 top-5 text-black/40 transition-colors hover:text-black"
+                    onClick={
+                      handleClose
+                    }
+                    className="absolute right-6 top-6 text-black/40 transition-colors duration-200 hover:text-black"
                   >
                     <X
                       size={18}
-                      strokeWidth={1.7}
+                      strokeWidth={1.5}
                     />
                   </button>
 
-                  {/* Header */}
-                  <div className="mb-8 text-center">
-                    <p className="mb-3 font-body text-[10px] uppercase tracking-[0.35em] text-secondary">
+                  {/* Heading */}
+                  <div className="mb-10 text-center">
+                    <p className="mb-4 font-body text-[10px] uppercase tracking-[0.35em] text-secondary">
                       Sankalpa Events
                     </p>
 
-                    <h2 className="font-heading text-3xl font-light text-foreground">
-                      Free Consultation
+                    <h2 className="font-heading text-3xl font-light text-foreground md:text-4xl">
+                      Free{" "}
+                      <span>
+                        Consultation
+                      </span>
                     </h2>
 
-                    <p className="mt-3 font-body text-sm text-muted-foreground">
+                    <p className="mt-4 font-body text-sm text-muted-foreground">
                       Tell us about your
-                      event and we'll get in
-                      touch.
+                      event and we'll get
+                      in touch.
                     </p>
                   </div>
 
                   {/* Form */}
                   <form
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
+                    onSubmit={
+                      handleSubmit
+                    }
+                    className="space-y-8"
                   >
-                    <input
-                      name="name"
-                      type="text"
-                      required
-                      placeholder="Your Full Name"
-                      className="w-full border-b border-border bg-transparent pb-3 text-sm outline-none transition-colors focus:border-secondary"
-                    />
+                    <div>
+                      <label className="mb-3 block font-body text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        Name
+                      </label>
 
-                    <input
-                      name="phone"
-                      type="tel"
-                      required
-                      placeholder="+91 XXXXX XXXXX"
-                      className="w-full border-b border-border bg-transparent pb-3 text-sm outline-none transition-colors focus:border-secondary"
-                    />
+                      <input
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="Your full name"
+                        className="w-full border-b border-border bg-transparent pb-3 font-body text-sm text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200 focus:border-secondary focus:outline-none"
+                      />
+                    </div>
 
-                    <input
-                      name="email"
-                      type="email"
-                      required
-                      placeholder="your@email.com"
-                      className="w-full border-b border-border bg-transparent pb-3 text-sm outline-none transition-colors focus:border-secondary"
-                    />
+                    <div>
+                      <label className="mb-3 block font-body text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        Phone Number
+                      </label>
 
-                    <button
-                      type="submit"
-                      disabled={sending}
-                      className="flex items-center gap-2 bg-primary px-8 py-4 text-[11px] uppercase tracking-[0.2em] text-primary-foreground transition-all hover:bg-teal-dark disabled:opacity-50"
-                    >
-                      {sending
-                        ? "Sending..."
-                        : "Get Consultation"}
+                      <input
+                        name="phone"
+                        type="tel"
+                        required
+                        placeholder="+91 XXXXX XXXXX"
+                        className="w-full border-b border-border bg-transparent pb-3 font-body text-sm text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200 focus:border-secondary focus:outline-none"
+                      />
+                    </div>
 
-                      <Send size={14} />
-                    </button>
+                    <div>
+                      <label className="mb-3 block font-body text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        Email Address
+                      </label>
+
+                      <input
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="your@email.com"
+                        className="w-full border-b border-border bg-transparent pb-3 font-body text-sm text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200 focus:border-secondary focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        type="submit"
+                        disabled={sending}
+                        className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-body text-[11px] uppercase tracking-[0.25em] text-primary-foreground transition-colors duration-300 hover:bg-teal-dark disabled:opacity-50"
+                      >
+                        {sending
+                          ? "Sending..."
+                          : "Get Consultation"}
+
+                        <Send
+                          size={14}
+                          strokeWidth={
+                            1.5
+                          }
+                        />
+                      </button>
+                    </div>
                   </form>
                 </motion.div>
               </div>
@@ -259,32 +298,32 @@ const ConsultationPopup = memo(
           )}
         </AnimatePresence>
 
-        {/* Floating Button */}
+        {/* Floating Bubble */}
         {!isOpen && show && (
           <motion.button
             initial={{
               opacity: 0,
-              y: 15,
             }}
             animate={{
               opacity: 1,
-              y: 0,
             }}
             transition={{
-              duration: 0.25,
+              duration: 0.3,
             }}
-            whileTap={{ scale: 0.96 }}
+            whileTap={{
+              scale: 0.97,
+            }}
             onClick={() =>
               setIsOpen(true)
             }
-            className="fixed bottom-6 right-6 z-[9997] flex items-center gap-2 bg-primary px-5 py-3 text-white shadow-lg transition-colors hover:bg-teal-dark"
+            className="fixed bottom-6 right-6 z-[9997] flex items-center gap-2 bg-primary px-5 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-teal-dark"
           >
             <MessageCircle
               size={18}
               strokeWidth={1.8}
             />
 
-            <span className="text-[11px] uppercase tracking-[0.15em]">
+            <span className="font-body text-[11px] uppercase tracking-[0.15em]">
               Free Consultation
             </span>
           </motion.button>
