@@ -203,7 +203,7 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
             ease: "easeOut",
         }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-[9997] flex items-center gap-2 bg-green-600 px-5 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-green-700"
+          className="fixed bottom-6 right-6 z-[9997] flex items-center gap-2 bg-primary px-5 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-teal-dark"
         >
           <MessageCircle size={18} strokeWidth={1.8} />
 
