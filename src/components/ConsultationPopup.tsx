@@ -3,96 +3,133 @@ import { useEffect, useState } from "react";
 import { X, MessageCircle, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
+
 interface ConsultationPopupProps {
   show: boolean;
 }
 
-const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
+const ConsultationPopup = ({
+  show,
+}: ConsultationPopupProps) => {
   const { toast } = useToast();
 
   const [isOpen, setIsOpen] = useState(false);
   const [hasClosed, setHasClosed] = useState(false);
   const [sending, setSending] = useState(false);
 
+  // Auto open after 3 seconds
   useEffect(() => {
-  if (show && !hasClosed) {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-    }, 3000);
+    if (show && !hasClosed) {
+      const timer = setTimeout(() => {
+        setIsOpen(true);
+      }, 3000);
 
-    return () => clearTimeout(timer);
-  }
-}, [show, hasClosed]);
+      return () => clearTimeout(timer);
+    }
+  }, [show, hasClosed]);
 
-  const handleSubmit = async (
-  e: React.FormEvent<HTMLFormElement>
-) => {
-  e.preventDefault();
+  // Open popup from CTA button
+  useEffect(() => {
+    const handler = () => setIsOpen(true);
 
-  const form = e.currentTarget;
-
-  const data = new FormData(form);
-
-  const name = data.get("name") as string;
-  const phone = data.get("phone") as string;
-  const email = data.get("email") as string;
-
-  if (!name.trim() || !phone.trim() || !email.trim()) {
-    toast({
-      title: "Please fill in all required fields.",
-      variant: "destructive",
-    });
-
-    return;
-  }
-
-  setSending(true);
-
-  const templateParams = {
-    name,
-    email,
-    phone,
-    eventType: "Free Consultation",
-    eventDate: "Not Provided",
-    venue: "Not Provided",
-    budget: "Not Provided",
-    message: "User requested a free consultation.",
-  };
-
-  try {
-    await emailjs.send(
-      "service_zebe7mk",
-      "template_uiyecpu",
-      templateParams,
-      "Kdmq11Z41cz4KD-xp"
+    window.addEventListener(
+      "open-consultation",
+      handler
     );
 
-    toast({
-      title: "Consultation Request Sent!",
-      description: "We will get back to you soon.",
-    });
+    return () => {
+      window.removeEventListener(
+        "open-consultation",
+        handler
+      );
+    };
+  }, []);
 
-    form.reset();
+  const handleClose = () => {
     setIsOpen(false);
     setHasClosed(true);
-  } catch (error) {
-    console.error(error);
+  };
 
-    toast({
-      title: "Failed to send request",
-      description: "Please try again later.",
-      variant: "destructive",
-    });
-  } finally {
-    setSending(false);
-  }
-};
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+
+    const data = new FormData(form);
+
+    const name = data.get("name") as string;
+    const phone = data.get("phone") as string;
+    const email = data.get("email") as string;
+
+    // Validation
+    if (
+      !name.trim() ||
+      !phone.trim() ||
+      !email.trim()
+    ) {
+      toast({
+        title:
+          "Please fill in all required fields.",
+        variant: "destructive",
+      });
+
+      return;
+    }
+
+    setSending(true);
+
+    const templateParams = {
+      name,
+      email,
+      phone,
+      eventType: "Free Consultation",
+      eventDate: "Not Provided",
+      venue: "Not Provided",
+      budget: "Not Provided",
+      message:
+        "User requested a free consultation.",
+    };
+
+    try {
+      await emailjs.send(
+        "service_zebe7mk",
+        "template_uiyecpu",
+        templateParams,
+        "Kdmq11Z41cz4KD-xp"
+      );
+
+      toast({
+        title: "Consultation Request Sent!",
+        description:
+          "We will get back to you soon.",
+      });
+
+      form.reset();
+      handleClose();
+    } catch (error) {
+      console.error(error);
+
+      toast({
+        title: "Failed to send request",
+        description:
+          "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <>
       {/* Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-[9998] bg-black/30" />
+        <div
+          className="fixed inset-0 z-[9998] bg-black/30 backdrop-blur-sm"
+          onClick={handleClose}
+        />
       )}
 
       {/* Popup */}
@@ -102,41 +139,46 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-                duration: 0.55,
-                ease: [0.22, 1, 0.36, 1],
+              duration: 0.55,
+              ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative w-full max-w-xl bg-white px-8 py-10 md:px-12 md:py-12 shadow-2xl"
+            className="relative w-full max-w-xl bg-white px-8 py-10 shadow-2xl md:px-12 md:py-12"
           >
-            {/* Close */}
+            {/* Close Button */}
             <button
-              onClick={() => {
-                setIsOpen(false);
-                setHasClosed(true);
-            }}
-              className="absolute right-6 top-6 text-black/40 hover:text-black transition-colors duration-200"
+              onClick={handleClose}
+              className="absolute right-6 top-6 text-black/40 transition-colors duration-200 hover:text-black"
             >
-              <X size={18} strokeWidth={1.5} />
+              <X
+                size={18}
+                strokeWidth={1.5}
+              />
             </button>
 
             {/* Heading */}
             <div className="mb-10 text-center">
-              <p className="mb-4 text-[10px] uppercase tracking-[0.35em] text-secondary font-body">
+              <p className="mb-4 font-body text-[10px] uppercase tracking-[0.35em] text-secondary">
                 Sankalpa Events
               </p>
 
-              <h2 className="font-heading text-3xl md:text-4xl font-light text-foreground">
-                Free <span> Consultation</span>
+              <h2 className="font-heading text-3xl font-light text-foreground md:text-4xl">
+                Free <span>Consultation</span>
               </h2>
 
-              <p className="mt-4 text-sm text-muted-foreground font-body">
-                Tell us about your event and we’ll get in touch.
+              <p className="mt-4 font-body text-sm text-muted-foreground">
+                Tell us about your event and
+                we'll get in touch.
               </p>
             </div>
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-8"
+            >
+              {/* Name */}
               <div>
-                <label className="mb-3 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-body">
+                <label className="mb-3 block font-body text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   Name
                 </label>
 
@@ -145,12 +187,13 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
                   type="text"
                   required
                   placeholder="Your full name"
-                  className="w-full border-b border-border bg-transparent pb-3 text-sm font-body text-foreground placeholder:text-muted-foreground/40 focus:border-secondary focus:outline-none transition-colors duration-200"
+                  className="w-full border-b border-border bg-transparent pb-3 font-body text-sm text-foreground placeholder:text-muted-foreground/40 focus:border-secondary focus:outline-none transition-colors duration-200"
                 />
               </div>
 
+              {/* Phone */}
               <div>
-                <label className="mb-3 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-body">
+                <label className="mb-3 block font-body text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   Phone Number
                 </label>
 
@@ -159,12 +202,13 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
                   type="tel"
                   required
                   placeholder="+91 XXXXX XXXXX"
-                  className="w-full border-b border-border bg-transparent pb-3 text-sm font-body text-foreground placeholder:text-muted-foreground/40 focus:border-secondary focus:outline-none transition-colors duration-200"
+                  className="w-full border-b border-border bg-transparent pb-3 font-body text-sm text-foreground placeholder:text-muted-foreground/40 focus:border-secondary focus:outline-none transition-colors duration-200"
                 />
               </div>
 
+              {/* Email */}
               <div>
-                <label className="mb-3 block text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-body">
+                <label className="mb-3 block font-body text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   Email Address
                 </label>
 
@@ -173,19 +217,25 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
                   type="email"
                   required
                   placeholder="your@email.com"
-                  className="w-full border-b border-border bg-transparent pb-3 text-sm font-body text-foreground placeholder:text-muted-foreground/40 focus:border-secondary focus:outline-none transition-colors duration-200"
+                  className="w-full border-b border-border bg-transparent pb-3 font-body text-sm text-foreground placeholder:text-muted-foreground/40 focus:border-secondary focus:outline-none transition-colors duration-200"
                 />
               </div>
 
+              {/* Submit */}
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={sending}
-                  className="inline-flex items-center gap-3 bg-primary px-10 py-4 text-[11px] uppercase tracking-[0.25em] text-primary-foreground font-body transition-colors duration-300 hover:bg-teal-dark disabled:opacity-50"
+                  className="inline-flex items-center gap-3 bg-primary px-10 py-4 font-body text-[11px] uppercase tracking-[0.25em] text-primary-foreground transition-colors duration-300 hover:bg-teal-dark disabled:opacity-50"
                 >
-                  {sending ? "Sending..." : "Get Consultation"}
+                  {sending
+                    ? "Sending..."
+                    : "Get Consultation"}
 
-                  <Send size={14} strokeWidth={1.5} />
+                  <Send
+                    size={14}
+                    strokeWidth={1.5}
+                  />
                 </button>
               </div>
             </form>
@@ -196,18 +246,21 @@ const ConsultationPopup = ({ show }: ConsultationPopupProps) => {
       {/* Floating Bubble */}
       {!isOpen && show && (
         <motion.button
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{
             duration: 0.45,
             ease: "easeOut",
-        }}
+          }}
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 z-[9997] flex items-center gap-2 bg-primary px-5 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-teal-dark"
         >
-          <MessageCircle size={18} strokeWidth={1.8} />
+          <MessageCircle
+            size={18}
+            strokeWidth={1.8}
+          />
 
-          <span className="text-[11px] uppercase tracking-[0.15em] font-body">
+          <span className="font-body text-[11px] uppercase tracking-[0.15em]">
             Free Consultation
           </span>
         </motion.button>
