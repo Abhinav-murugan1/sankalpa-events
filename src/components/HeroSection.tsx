@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import heroWedding from "@/assets/service-concert.png";
 import heroReception from "@/assets/service-engagement.jpeg";
@@ -24,7 +24,6 @@ const HeroSection = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
-        {/* Layer all images, fade the active one in — no blank gap */}
         {bgImages.map((src, i) => (
           <motion.img
             key={i}
@@ -36,6 +35,11 @@ const HeroSection = () => {
             }}
             transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
             className="w-full h-full object-cover absolute inset-0"
+            // PERFORMANCE FIX: 
+            // Force immediate load for the 1st image, defer all others.
+            loading={i === 0 ? "eager" : "lazy"}
+            fetchPriority={i === 0 ? "high" : "low"}
+            decoding={i === 0 ? "sync" : "async"}
           />
         ))}
         <div className="absolute inset-0 bg-teal-deepest/70" />
