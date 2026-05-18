@@ -5,11 +5,13 @@ import logo2 from "@/assets/logo2.png";
 interface IntroAnimationProps {
   show: boolean;
   onComplete: () => void;
+  onFullyExited: () => void; // Add this new prop
 }
 
-const IntroAnimation = ({ show, onComplete }: IntroAnimationProps) => {
+const IntroAnimation = ({ show, onComplete, onFullyExited }: IntroAnimationProps) => {
   return (
-    <AnimatePresence onExitComplete={onComplete}>
+    // Fire onFullyExited ONLY when the exit transition is completely finished
+    <AnimatePresence onExitComplete={onFullyExited}>
       {show && (
         <motion.div
           key="intro"
@@ -23,6 +25,7 @@ const IntroAnimation = ({ show, onComplete }: IntroAnimationProps) => {
             exit={{ opacity: 0, scale: 1.1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             onAnimationComplete={() => {
+              // Trigger the exit animation after the entry is done
               setTimeout(() => onComplete(), 1200);
             }}
             className="flex flex-col items-center gap-6"
@@ -42,7 +45,7 @@ const IntroAnimation = ({ show, onComplete }: IntroAnimationProps) => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-/>
+            />
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
