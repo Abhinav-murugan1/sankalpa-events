@@ -15,10 +15,17 @@ import Footer from "@/components/Footer";
 
 const Index = () => {
   const [showIntro, setShowIntro] = useState(true);
+  // Track when the intro is physically removed from the DOM
+  const [introRemoved, setIntroRemoved] = useState(false); 
 
   return (
     <div className="min-h-screen bg-background">
-      <IntroAnimation show={showIntro} onComplete={() => setShowIntro(false)} />
+      <IntroAnimation 
+        show={showIntro} 
+        onComplete={() => setShowIntro(false)} 
+        onFullyExited={() => setIntroRemoved(true)} 
+      />
+      
       <Navbar />
       <HeroSection />
       <AboutSection />
@@ -29,7 +36,10 @@ const Index = () => {
       <GallerySection />
       <CTASection />
       <ContactSection />
-      <ConsultationPopup show={!showIntro} />
+      
+      {/* Wait until the transition is fully complete before rendering the popup */}
+      <ConsultationPopup show={introRemoved} />
+      
       <Footer />
     </div>
   );
